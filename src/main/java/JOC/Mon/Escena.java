@@ -59,4 +59,6 @@ public class Escena {
         this.setDescripcion(descripcion);
         this.setDatos(datos);
     }
+
+
 }

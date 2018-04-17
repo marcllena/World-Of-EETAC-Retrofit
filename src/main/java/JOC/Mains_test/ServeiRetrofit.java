@@ -7,8 +7,9 @@ import retrofit2.http.Path;
 
 import java.util.List;
 
-public interface Retrofit {
-    @GET("/escenaris/{id}")
-    Call<Escena> escena(
+public interface ServeiRetrofit {
+
+    @GET("/myapp/service/escenaris/{id}")
+    Call<Escena> escenas(
             @Path("id") String id);
 }
