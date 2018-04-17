@@ -1,4 +1,6 @@
-package JOC;
+package JOC.Mains_test;
+
+import JOC.Mon.*;
 
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -10,26 +12,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class Main {
-    public static final String API_URL = "https://api.github.com";
-
-    public static class Contributor {
-        public final String login;
-        public final int contributions;
-        public final String avatar_url;
-
-        public Contributor(String login, int contributions, String avatar_url) {
-            this.login = login;
-            this.contributions = contributions;
-            this.avatar_url = avatar_url;
-        }
-    }
-
-    public interface GitHub {
-        @GET("/repos/{owner}/{repo}/contributors")
-        Call<List<Contributor>> contributors(
-                @Path("owner") String owner,
-                @Path("repo") String repo);
-    }
+    public static final String API_URL = "http://localhost:8080/myapp/service/";
 
     public static void main( String[] args ) throws IOException
     {
@@ -41,10 +24,10 @@ public class Main {
                 .build();
 
         // Create an instance of our GitHub API interface.
-        GitHub github = retrofit.create(GitHub.class);
+        Retrofit servei = retrofit.create(Retrofit.class);
 
         // Create a call instance for looking up Retrofit contributors.
-        Call<List<Contributor>> call = github.contributors("RouteInjector", "route-injector");
+        Call<Escena> call = servei.escena();
 
         // Fetch and print a list of the contributors to the library.
         List<Contributor> contributors = call.execute().body();
