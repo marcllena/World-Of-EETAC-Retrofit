@@ -5,6 +5,7 @@ import JOC.Mon.*;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -40,12 +41,21 @@ public class Main {
         ServeiRetrofit servei = retrofit.create(ServeiRetrofit.class);
 
         // Create a call instance for looking up Retrofit contributors.
-        Call<Escena> call = servei.escenas("0");
+        Call<Escena> call = servei.escenas("2");
 
         // Fetch and print a list of the contributors to the library.
-        Escena escena = call.execute().body();
-        if(escena!=null)
-        pintar(escena);
+        Response resposta= call.execute();
+        int codi= resposta.code();
+        if(codi==200) {
+            Escena escena = (Escena)resposta.body();
+            pintar(escena);
+        }
+        else if(codi==204){
+            System.out.printf("No hi ha cap escena amb aquell identificador");
+        }
+        else{
+            System.out.printf("Error desconegut");
+        }
     }
 }
 
