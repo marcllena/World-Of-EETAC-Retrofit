@@ -3,6 +3,7 @@ package JOC.Mains_test;
 import JOC.Mon.*;
 
 import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -42,6 +43,8 @@ public class Main {
 
         // Create a call instance for looking up Retrofit contributors.
         Call<Escena> call = servei.escenas("2");
+        Call<Usuario> call2 = servei.regUsuario(new Usuario("Jordi","noob",1));
+        Call<Usuario> call3 = servei.consultarUsuarioJSON("Jordi");
 
         // Fetch and print a list of the contributors to the library.
         Response resposta= call.execute();
@@ -51,10 +54,34 @@ public class Main {
             pintar(escena);
         }
         else if(codi==204){
-            System.out.printf("No hi ha cap escena amb aquell identificador");
+            System.out.printf("No hi ha cap escena amb aquell identificador\n");
         }
         else{
-            System.out.printf("Error desconegut");
+            System.out.printf("Error desconegut\n");
+        }
+        resposta = call2.execute();
+        codi= resposta.code();
+        if(codi==200) {
+            Usuario user = (Usuario)resposta.body();
+            System.out.printf(user.getNickname()+"\n");
+        }
+        else if(codi==204){
+            System.out.printf("No hi ha cap usuari amb aquest identificador\n");
+        }
+        else{
+            System.out.printf("Error desconegut\n");
+        }
+        resposta = call3.execute();
+        codi= resposta.code();
+        if(codi==200) {
+            Usuario user = (Usuario) resposta.body();
+            System.out.printf(user.getNickname()+"\n");
+        }
+        else if(codi==204){
+            System.out.printf("No hi ha cap usuari amb aquest identificador\n");
+        }
+        else{
+            System.out.printf("Error desconegut\n");
         }
     }
 }
